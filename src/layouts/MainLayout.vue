@@ -28,6 +28,7 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above overlay bordered>
+      <city-finder />
       <q-list>
         <q-item-label header> Essential Links </q-item-label>
 
@@ -47,8 +48,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useQuasar } from 'quasar';
 import EssentialLink from 'components/EssentialLink.vue';
+import CityFinder from 'components/CityFinder.vue';
 
 const linksList = [
   {
@@ -100,11 +101,11 @@ export default defineComponent({
 
   components: {
     EssentialLink,
+    CityFinder,
   },
 
   setup() {
     const leftDrawerOpen = ref(false);
-    const $q = useQuasar();
 
     return {
       essentialLinks: linksList,
