@@ -13,7 +13,17 @@
 
         <q-toolbar-title> Weather App </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+          <q-btn
+            round
+            :outline="$q.dark.isActive"
+            size="sm"
+            dense
+            :glossy="!$q.dark.isActive"
+            icon="dark_mode"
+            @click="$q.dark.toggle"
+          />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -37,6 +47,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useQuasar } from 'quasar';
 import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
@@ -93,6 +104,7 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const $q = useQuasar();
 
     return {
       essentialLinks: linksList,
