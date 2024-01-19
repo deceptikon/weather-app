@@ -61,6 +61,18 @@ interface Current {
   wind_speed_10m: number;
   wind_direction_10m: number;
 }
+interface DailyUnits {
+  time: string;
+  temperature_2m_max: string;
+  temperature_2m_min: string;
+  precipitation_probability_max: string;
+}
+interface Daily {
+  time: string[];
+  temperature_2m_max: number[];
+  temperature_2m_min: number[];
+  precipitation_probability_max: number[];
+}
 export interface Forecast {
   latitude: number;
   longitude: number;
@@ -70,4 +82,6 @@ export interface Forecast {
   elevation: number;
   current_units: CurrentUnit;
   current: Current;
+  daily_units: DailyUnits;
+  daily: Daily;
 }

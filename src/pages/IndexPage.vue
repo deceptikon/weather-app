@@ -16,7 +16,7 @@ import { watch } from 'vue';
 function fetchMeteo(latitude: number, longitude: number) {
   return apiMeteo
     .get(
-      `?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&temperature_unit=celsius&forecast_days=1`
+      `?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&temperature_unit=celsius&forecast_days=1`
     )
     .then((r) => {
       return r.data;
