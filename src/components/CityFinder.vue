@@ -1,16 +1,18 @@
 <template>
   <div>
     <q-select
-      filled
       v-model="model"
       use-input
       input-debounce="0"
+      hide-selected
+      options-dense
+      hide-bottom-space
       label="Search city"
       :options="options"
       @filter="filterFn"
       style="margin: 10px"
       :loading="loading"
-      @update:model-value="(v) => store.setCity(v)"
+      @update:model-value="(c) => store.setCity(c)"
     >
       <template v-slot:no-option>
         <q-item>
@@ -18,43 +20,32 @@
         </q-item>
       </template>
     </q-select>
-    {{ weather.city }}
-    {{ weather.lastCities }}
+    <city-link v-if="weather.city.value" :link="weather.city.value" active />
+    <q-item-label header> Recently viewed </q-item-label>
+    <q-list>
+      <CityLink
+        v-for="(link, index) in weather.lastCities.value"
+        :key="index"
+        :link="link"
+        @set-city="(e) => store.setCity(e)"
+      />
+    </q-list>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  PropType,
-  computed,
-  ref,
-  toRef,
-  Ref,
-  onMounted,
-  reactive,
-} from 'vue';
+import { defineComponent, ref } from 'vue';
 import { apiCities } from 'boot/axios';
 import { useWeatherStore } from 'stores/weather-store';
 import { storeToRefs } from 'pinia';
-import { Todo, Meta } from './models';
+import { CityResponse } from './models';
+import CityLink from 'components/CityLink.vue';
 
-// function useClickCount() {
-//   const clickCount = ref(0);
-//   function increment() {
-//     clickCount.value += 1;
-//     return clickCount.value;
-//   }
-
-//   return { clickCount, increment };
-// }
-
-// function useDisplayTodo(todos: Ref<Todo[]>) {
-//   const todoCount = computed(() => todos.value.length);
-//   return { todoCount };
-// }
 export default defineComponent({
   name: 'CityFinder',
+  components: {
+    CityLink,
+  },
   props: {
     // title: {
     //   type: String,
@@ -83,10 +74,17 @@ export default defineComponent({
       apiCities
         .get('?namePrefix=' + str)
         .then(({ data: { data } }) => {
-          options.value = data.map((o) => ({
-            label: `${o.name} ${o.country}`,
-            value: `${o.latitude} ${o.longitude}`,
-          }));
+          options.value = data.map((o: CityResponse) => {
+            const { name, country, latitude, longitude, id } = o;
+            return {
+              label: `${name} ${country}`,
+              name,
+              country,
+              latitude: Number(latitude),
+              longitude: Number(longitude),
+              id,
+            };
+          });
         })
         .finally(() => (loading.value = false));
     }
@@ -101,7 +99,7 @@ export default defineComponent({
           return;
         }
 
-        if (val.length < 4) {
+        if (val.length < 2) {
           abort();
           return;
         }

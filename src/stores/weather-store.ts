@@ -1,27 +1,30 @@
 import { defineStore } from 'pinia';
+import { City } from 'src/components/models';
+
+interface State {
+  city: City | null;
+  lastCities: Array<City>;
+}
 
 export const useWeatherStore = defineStore('weather', {
-  state: () => ({
-    city: {},
+  state: (): State => ({
+    city: null,
     lastCities: [],
   }),
-  getters: {
-    // doubleCount: (state) => state.counter * 2,
-  },
+  getters: {},
   actions: {
-    setCity(c: object) {
-      console.error(
-        JSON.stringify(c),
-        JSON.stringify(this.city),
-        JSON.stringify(this.lastCities)
-      );
-      if (Object.keys(this.city).length) {
-        this.saveLastUsed(this.city);
+    setCity(c: City) {
+      if (this.city) {
+        this.saveLastUsed(c, this.city);
       }
       this.city = c;
     },
-    saveLastUsed(c: object) {
-      this.lastCities.push(c);
+    saveLastUsed(city: City, existingCity: City) {
+      const index = this.lastCities.findIndex((c) => city.id === c.id);
+      if (index > -1) {
+        this.lastCities.splice(index, 1);
+      }
+      this.lastCities.push(existingCity);
     },
   },
 });

@@ -1,49 +1,49 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <example-component
-      title="Example component"
-      active
-      :todos="todos"
-      :meta="meta"
-    ></example-component>
+    <weather-view v-if="forecast" :forecast="forecast" />
   </q-page>
 </template>
 
 <script lang="ts">
-import { Todo, Meta } from 'components/models';
-import ExampleComponent from 'components/ExampleComponent.vue';
+import { Forecast } from 'components/models';
+import WeatherView from 'src/components/WeatherView.vue';
 import { defineComponent, ref } from 'vue';
+import { apiMeteo } from 'src/boot/axios';
+import { useWeatherStore } from 'src/stores/weather-store';
+import { storeToRefs } from 'pinia';
+import { watch } from 'vue';
+
+function fetchMeteo(latitude: number, longitude: number) {
+  return apiMeteo
+    .get(
+      `?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&temperature_unit=celsius&forecast_days=1`
+    )
+    .then((r) => {
+      return r.data;
+    });
+}
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ExampleComponent },
-  setup () {
-    const todos = ref<Todo[]>([
-      {
-        id: 1,
-        content: 'ct1'
-      },
-      {
-        id: 2,
-        content: 'ct2'
-      },
-      {
-        id: 3,
-        content: 'ct3'
-      },
-      {
-        id: 4,
-        content: 'ct4'
-      },
-      {
-        id: 5,
-        content: 'ct5'
+  components: { WeatherView },
+  setup() {
+    const store = storeToRefs(useWeatherStore());
+    let forecast = ref<Forecast>();
+    watch(
+      () => store.city.value?.id,
+      async (newId, oldId) => {
+        if (newId && newId !== oldId && store.city.value) {
+          forecast.value = await fetchMeteo(
+            store.city.value?.latitude,
+            store.city.value?.longitude
+          );
+        }
       }
-    ]);
-    const meta = ref<Meta>({
-      totalCount: 1200
-    });
-    return { todos, meta };
-  }
+    );
+    return {
+      // city: weather.city,
+      forecast,
+    };
+  },
 });
 </script>

@@ -17,17 +17,15 @@ declare module '@vue/runtime-core' {
 const apiCities = axios.create({
   baseURL: 'http://geodb-free-service.wirefreethought.com/v1/geo/places',
 });
-
-export default boot(({ app }) => {
-  // for use inside Vue files (Options API) through this.$axios and this.$api
-
-  app.config.globalProperties.$axios = axios;
-  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
-  //       so you won't necessarily have to import axios in each vue file
-
-  app.config.globalProperties.$apiCities = apiCities;
-  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
-  //       so you can easily perform requests against your app's API
+const apiMeteo = axios.create({
+  baseURL: 'https://api.open-meteo.com/v1/forecast',
 });
 
-export { apiCities };
+export default boot(({ app }) => {
+  app.config.globalProperties.$axios = axios;
+
+  app.config.globalProperties.$apiCities = apiCities;
+  app.config.globalProperties.$apiMeteo = apiMeteo;
+});
+
+export { apiCities, apiMeteo };
