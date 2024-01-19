@@ -77,7 +77,7 @@ export default defineComponent({
           options.value = data.map((o: CityResponse) => {
             const { name, country, latitude, longitude, id } = o;
             return {
-              label: `${name} ${country}`,
+              label: `${name}, ${country}`,
               name,
               country,
               latitude: Number(latitude),

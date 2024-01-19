@@ -1,13 +1,13 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <weather-view v-if="forecast" :forecast="forecast" />
+    <weather-view v-if="forecast" :forecast="forecast" :title="title" />
   </q-page>
 </template>
 
 <script lang="ts">
 import { Forecast } from 'components/models';
 import WeatherView from 'src/components/WeatherView.vue';
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { apiMeteo } from 'src/boot/axios';
 import { useWeatherStore } from 'src/stores/weather-store';
 import { storeToRefs } from 'pinia';
@@ -40,8 +40,11 @@ export default defineComponent({
         }
       }
     );
+    const title = computed(() => {
+      return store.city.value?.label || null;
+    });
     return {
-      // city: weather.city,
+      title,
       forecast,
     };
   },

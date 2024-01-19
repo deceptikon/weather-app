@@ -1,14 +1,11 @@
 <template>
-  <div style="max-width: 500px; margin: 20px auto" class="weather-card">
-    <q-card class="my-card" flat bordered>
+  <div style="max-width: 700px; margin: 20px auto" class="weather-card">
+    <q-bar class="bg-primary text-white"> <q-space />{{ title }} </q-bar>
+    <q-card class="my-card q-pa-sm" flat bordered>
       <q-card-section horizontal>
         <div class="column">
-          <!-- <div class="text-h6 q-mb-xs">Bishkek</div> -->
-          <div class="text-h2 q-mb-xs">
-            {{ forecast.daily.temperature_2m_min[0]
-            }}{{ forecast.daily_units.temperature_2m_min[0] }}&nbsp;{{
-              forecast.daily.temperature_2m_max[0]
-            }}{{ forecast.daily_units.temperature_2m_max[0] }}
+          <div class="text-h3 q-mb-xs">
+            {{ temp }}
           </div>
           <div class="text-h5 q-mb-xs red" color="red">{{ weather }}</div>
           <div class="text-h7 q-mb-xs">
@@ -136,6 +133,10 @@ export default defineComponent({
       type: Object as PropType<Forecast>,
       required: true,
     },
+    title: {
+      type: String as PropType<string | null>,
+      required: true,
+    },
   },
   setup(props) {
     const weather = computed(() => {
@@ -149,7 +150,15 @@ export default defineComponent({
 
       return is_day ? 'Sun' : 'Moon';
     });
-    return { weather };
+    const temp = computed(() => {
+      const { daily, daily_units } = props.forecast;
+      const sign_min = daily.temperature_2m_min[0] > 0 ? '+' : '';
+      const sign_max = daily.temperature_2m_max[0] > 0 ? '+' : '';
+      const min = `${sign_min}${daily.temperature_2m_min[0]}${daily_units.temperature_2m_min[0]}`;
+      const max = `${sign_max}${daily.temperature_2m_max[0]}${daily_units.temperature_2m_max[0]}`;
+      return `${min}${max}`;
+    });
+    return { weather, temp };
   },
 });
 </script>
