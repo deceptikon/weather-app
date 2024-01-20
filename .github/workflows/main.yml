@@ -12,6 +12,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: yarn build          
+      - run: yarn && yarn build          
       - run: npm install -g surge
-      - run: surge ./ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+      - run: surge ./dist/spa ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
