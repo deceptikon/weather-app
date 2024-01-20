@@ -3,7 +3,7 @@
     <q-select
       v-model="model"
       use-input
-      input-debounce="0"
+      input-debounce="1000"
       hide-selected
       options-dense
       hide-bottom-space
@@ -23,7 +23,9 @@
       </template>
     </q-select>
     <city-link v-if="weather.city.value" :link="weather.city.value" active />
-    <q-item-label header> {{ $t('recently_viewed') }} </q-item-label>
+    <q-item-label header v-if="weather.lastCities.value.length">
+      {{ $t('recently_viewed') }}
+    </q-item-label>
     <q-list>
       <CityLink
         v-for="(link, index) in weather.lastCities.value"
@@ -42,39 +44,22 @@ import { useWeatherStore } from 'stores/weather-store';
 import { storeToRefs } from 'pinia';
 import { CityResponse } from './models';
 import CityLink from 'components/CityLink.vue';
-
+import { useI18n } from 'vue-i18n';
 export default defineComponent({
   name: 'CityFinder',
   components: {
     CityLink,
   },
-  props: {
-    // title: {
-    //   type: String,
-    //   required: true
-    // },
-    // todos: {
-    //   type: Array as PropType<Todo[]>,
-    //   default: () => []
-    // },
-    // meta: {
-    //   type: Object as PropType<Meta>,
-    //   required: true
-    // },
-    // active: {
-    //   type: Boolean
-    // }
-  },
-  setup(props) {
+  setup() {
     let options = ref([]);
     let loading = ref(false);
     const store = useWeatherStore();
     const weather = storeToRefs(store);
-
+    const { locale } = useI18n();
     function fetchCities(str: string) {
       loading.value = true;
       apiCities
-        .get('?languageCode=ru&namePrefix=' + str)
+        .get(`?languageCode=${locale.value}&namePrefix=${str}&limit=10`)
         .then(({ data: { data } }) => {
           options.value = data.map((o: CityResponse) => {
             const { name, country, latitude, longitude, id } = o;
@@ -114,8 +99,8 @@ export default defineComponent({
       loading,
       weather,
       store,
+      locale,
     };
-    // return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
   },
 });
 </script>

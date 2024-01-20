@@ -9,12 +9,12 @@
           </div>
           <div class="text-h5 q-mb-xs red" color="red">{{ weather }}</div>
           <div class="text-h7 q-mb-xs">
-            Current temp.
+            {{ $t('temp') }}
             {{ forecast.current.temperature_2m }}
             {{ forecast.current_units.temperature_2m }}
           </div>
           <div class="text-h7 q-mb-xs">
-            Feels like
+            {{ $t('feels_like') }}
             {{ forecast.current.apparent_temperature }}
             {{ forecast.current_units.apparent_temperature }}
           </div>
@@ -30,7 +30,9 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Wind</q-item-label>
+              <q-item-label>
+                {{ $t('wind') }}
+              </q-item-label>
               <q-item-label caption>
                 {{ forecast.current.wind_speed_10m }}
                 {{ forecast.current_units.wind_speed_10m }}
@@ -44,7 +46,7 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Humidity</q-item-label>
+              <q-item-label>{{ $t('humidity') }}</q-item-label>
               <q-item-label caption>
                 {{ forecast.current.relative_humidity_2m
                 }}{{ forecast.current_units.relative_humidity_2m }}
@@ -58,7 +60,7 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Pressure</q-item-label>
+              <q-item-label>{{ $t('pressure') }}</q-item-label>
               <q-item-label caption>
                 {{ forecast.current.surface_pressure
                 }}{{ forecast.current_units.surface_pressure }}
@@ -74,7 +76,7 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Wind direction</q-item-label>
+              <q-item-label>{{ $t('wind_dir') }}</q-item-label>
               <q-item-label caption>55km/h</q-item-label>
             </q-item-section>
           </q-item>
@@ -85,7 +87,7 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Precipitation probability</q-item-label>
+              <q-item-label>{{ $t('precipit_probability') }}</q-item-label>
               <q-item-label caption>
                 {{ forecast.daily.precipitation_probability_max[0]
                 }}{{ forecast.daily_units.precipitation_probability_max[0] }}
@@ -99,7 +101,7 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Cloud cover</q-item-label>
+              <q-item-label>{{ $t('cloud_cover') }}</q-item-label>
               <q-item-label caption>
                 {{ forecast.current.cloud_cover
                 }}{{ forecast.current_units.cloud_cover }}
@@ -123,8 +125,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, toRef, Ref } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 import { Forecast } from './models';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'WeatherView',
@@ -139,14 +142,15 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const weather = computed(() => {
       const { snowfall, precipitation, rain, showers, cloud_cover, is_day } =
         props.forecast.current;
-      if (snowfall) return 'Snow';
-      if (showers) return 'Showers';
-      if (rain || precipitation) return 'Rain';
-      if (cloud_cover > 10) return 'Partially Cloudy';
-      if (cloud_cover > 80) return 'Cloudy';
+      if (snowfall) return t('snow');
+      if (showers) return t('showers');
+      if (rain || precipitation) return t('rain');
+      if (cloud_cover > 10) return t('partially_cloudy');
+      if (cloud_cover > 80) return t('cloudy');
 
       return is_day ? 'Sun' : 'Moon';
     });
