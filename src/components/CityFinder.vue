@@ -72,7 +72,7 @@ export default defineComponent({
     function fetchCities(str: string) {
       loading.value = true;
       apiCities
-        .get('?namePrefix=' + str)
+        .get('?languageCode=ru&namePrefix=' + str)
         .then(({ data: { data } }) => {
           options.value = data.map((o: CityResponse) => {
             const { name, country, latitude, longitude, id } = o;
