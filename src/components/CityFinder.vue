@@ -7,7 +7,7 @@
       hide-selected
       options-dense
       hide-bottom-space
-      label="Search city"
+      :label="$t('search_city')"
       :options="options"
       @filter="filterFn"
       style="margin: 10px"
@@ -16,12 +16,14 @@
     >
       <template v-slot:no-option>
         <q-item>
-          <q-item-section class="text-grey"> No results </q-item-section>
+          <q-item-section class="text-grey">
+            {{ $t('search_city') }}
+          </q-item-section>
         </q-item>
       </template>
     </q-select>
     <city-link v-if="weather.city.value" :link="weather.city.value" active />
-    <q-item-label header> Recently viewed </q-item-label>
+    <q-item-label header> {{ $t('recently_viewed') }} </q-item-label>
     <q-list>
       <CityLink
         v-for="(link, index) in weather.lastCities.value"
