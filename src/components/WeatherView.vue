@@ -1,29 +1,32 @@
 <template>
-  <div style="max-width: 700px; margin: 20px auto" class="weather-card">
-    <q-bar class="bg-primary text-white"> <q-space />{{ title }} </q-bar>
+  <div class="weather-card">
+    <q-bar class="bg-primary text-white text-center" dense>{{ title }} </q-bar>
     <q-card class="my-card q-pa-sm" flat bordered>
-      <q-card-section horizontal>
-        <div class="column">
-          <div class="text-h3 q-mb-xs">
+      <q-card-section class="row flex-center">
+        <div
+          class="column col-auto flex-center"
+          style="border-bottom: 1px solid #c1bcbc"
+        >
+          <div class="text-h4 q-mb-xs">
             {{ temp }}
           </div>
           <div class="text-h5 q-mb-xs red" color="red">{{ weather }}</div>
           <div class="text-h7 q-mb-xs">
             {{ $t('temp') }}
-            {{ forecast.current.temperature_2m }}
-            {{ forecast.current_units.temperature_2m }}
+            {{ forecast.current.temperature_2m
+            }}{{ forecast.current_units.temperature_2m }}
           </div>
           <div class="text-h7 q-mb-xs">
             {{ $t('feels_like') }}
-            {{ forecast.current.apparent_temperature }}
-            {{ forecast.current_units.apparent_temperature }}
+            {{ forecast.current.apparent_temperature
+            }}{{ forecast.current_units.apparent_temperature }}
           </div>
           <!-- <div class="col no-wrap items-center">
             <span class="text-caption text-grey q-ml-sm">4.2 (551)</span>
           </div> -->
           <!-- <q-img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
         </div>
-        <q-list>
+        <q-list class="col-auto" dense>
           <q-item>
             <q-item-section side>
               <q-icon color="primary" name="air" size="lg" />
@@ -69,7 +72,7 @@
           </q-item>
         </q-list>
 
-        <q-list>
+        <q-list class="col-auto" dense>
           <q-item>
             <q-item-section avatar>
               <q-icon color="primary" name="north_east" size="lg" />
@@ -169,7 +172,10 @@ export default defineComponent({
 
 <style lang="scss">
 .weather-card {
+  max-width: 700px;
+  margin: 20px auto 0px;
   .q-list {
+    min-width: 200px;
     .q-item__section {
       padding: 0;
       min-width: 42px;

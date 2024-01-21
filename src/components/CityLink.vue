@@ -1,5 +1,11 @@
 <template>
-  <q-item clickable tag="a" :active="active" @click="$emit('set-city', link)">
+  <q-item
+    clickable
+    tag="a"
+    dense
+    :active="active"
+    @click="$emit('set-city', link)"
+  >
     <q-item-section avatar>
       <q-icon
         :name="active ? 'check_circle_outline' : 'radio_button_unchecked'"

@@ -2,14 +2,14 @@
   <q-layout view="hHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
+        <!-- <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
-        />
+        /> -->
 
         <q-toolbar-title> {{ $t('appTitle') }} </q-toolbar-title>
         <div>
@@ -55,11 +55,18 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above overlay bordered>
+    <!-- <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      persistent
+      :breakpoint="800"
+      bordered
+    >
       <city-finder />
-    </q-drawer>
+    </q-drawer> -->
 
     <q-page-container>
+      <q-ajax-bar size="2px" position="top" color="info" />
       <router-view />
     </q-page-container>
   </q-layout>
@@ -67,21 +74,19 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import CityFinder from 'components/CityFinder.vue';
+// import CityFinder from 'components/CityFinder.vue';
 import { useWeatherStore } from 'src/stores/weather-store';
-import { storeToRefs } from 'pinia';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    CityFinder,
+    // CityFinder,
   },
 
   setup() {
     const leftDrawerOpen = ref(false);
     const store = useWeatherStore();
-    const w = storeToRefs(store);
 
     return {
       leftDrawerOpen,

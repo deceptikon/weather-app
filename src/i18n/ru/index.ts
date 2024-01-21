@@ -4,6 +4,7 @@
 export default {
   appTitle: 'Прогноз погоды',
   search_city: 'Поиск города',
+  select_city: 'Выберите город',
   no_results: 'Нет результатов',
   recently_viewed: 'Недавно просмотренные',
   temp: 'Температура',

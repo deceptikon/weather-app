@@ -4,6 +4,7 @@
 export default {
   appTitle: 'Forecast app',
   search_city: 'Search city',
+  select_city: 'Select city',
   no_results: 'No results',
   recently_viewed: 'Recently viewed',
   temp: 'Temperature',

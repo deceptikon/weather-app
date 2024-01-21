@@ -5,6 +5,7 @@
       use-input
       input-debounce="1000"
       hide-selected
+      fill-input
       options-dense
       hide-bottom-space
       :label="$t('search_city')"
@@ -79,7 +80,7 @@ export default defineComponent({
     return {
       model: ref(null),
       filterFn(val: string, update: any, abort: any) {
-        if (val === '' && !options.value?.length) {
+        if (val === '') {
           update(() => {
             fetchCities('');
           });

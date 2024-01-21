@@ -1,12 +1,17 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="column items-center justify-top">
     <weather-view v-if="forecast" :forecast="forecast" :title="title" />
+    <city-finder />
+    <!-- <div v-else>
+      <q-btn>{{ $t('select_city') }}</q-btn>
+    </div> -->
   </q-page>
 </template>
 
 <script lang="ts">
 import { Forecast } from 'components/models';
 import WeatherView from 'src/components/WeatherView.vue';
+import CityFinder from 'components/CityFinder.vue';
 import { computed, defineComponent, ref } from 'vue';
 import { apiMeteo } from 'src/boot/axios';
 import { useWeatherStore } from 'src/stores/weather-store';
@@ -30,7 +35,7 @@ function fetchMeteo(
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { WeatherView },
+  components: { WeatherView, CityFinder },
   setup() {
     const store = storeToRefs(useWeatherStore());
     let forecast = ref<Forecast>();
