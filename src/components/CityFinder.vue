@@ -79,7 +79,8 @@ export default defineComponent({
 
     return {
       model: ref(null),
-      filterFn(val: string, update: any, abort: any) {
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      filterFn(val: string, update: Function, abort: Function) {
         if (val === '') {
           update(() => {
             fetchCities('');
