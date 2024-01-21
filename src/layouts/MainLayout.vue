@@ -12,8 +12,16 @@
         />
 
         <q-toolbar-title> {{ $t('appTitle') }} </q-toolbar-title>
-
         <div>
+          <q-btn
+            round
+            size="sm"
+            dense
+            glossy
+            class="q-mr-sm"
+            @click="store.toggleCelsius()"
+            >{{ store.isCelsius ? 'C °' : 'F °' }}</q-btn
+          >
           <q-btn
             v-if="$i18n.locale === 'en'"
             round
@@ -60,6 +68,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import CityFinder from 'components/CityFinder.vue';
+import { useWeatherStore } from 'src/stores/weather-store';
+import { storeToRefs } from 'pinia';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -70,9 +80,12 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const store = useWeatherStore();
+    const w = storeToRefs(store);
 
     return {
       leftDrawerOpen,
+      store,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

@@ -4,15 +4,20 @@ import { City } from 'src/components/models';
 interface State {
   city: City | null;
   lastCities: Array<City>;
+  isCelsius: boolean;
 }
 
 export const useWeatherStore = defineStore('weather', {
   state: (): State => ({
     city: null,
     lastCities: [],
+    isCelsius: true,
   }),
   getters: {},
   actions: {
+    toggleCelsius() {
+      this.isCelsius = !this.isCelsius;
+    },
     setCity(c: City) {
       if (this.city) {
         this.saveLastUsed(c, this.city);
