@@ -1,11 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <weather-view
-      v-if="forecast"
-      :forecast="forecast"
-      :title="title"
-      :key="refresh"
-    />
+    <weather-view v-if="forecast" :forecast="forecast" :title="title" />
   </q-page>
 </template>
 

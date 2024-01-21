@@ -7,7 +7,6 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
-import { useWeatherStore } from 'stores/weather-store';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
 
@@ -37,7 +36,7 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to) => {
+  Router.beforeEach(() => {
     // ✅ This will work because the router starts its navigation after
     // the router is installed and pinia will be installed too
     const pinia = createPinia();
