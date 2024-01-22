@@ -7,10 +7,15 @@
           class="column col-auto flex-center"
           style="border-bottom: 1px solid #c1bcbc"
         >
-          <div class="text-h4 q-mb-xs">
+          <div class="text-h5 q-mb-xs">
+            <span class="material-symbols-outlined text-primary text-h2">
+              {{ weather_icon[weather] }}
+            </span>
             {{ temp }}
           </div>
-          <div class="text-h5 q-mb-xs red" color="red">{{ weather }}</div>
+          <div class="text-h6 q-mb-xs text-primary" color="red">
+            {{ $t(weather) }}
+          </div>
           <div class="text-h7 q-mb-xs">
             {{ $t('temp') }}
             {{ forecast.current.temperature_2m
@@ -132,6 +137,17 @@ import { defineComponent, PropType, computed } from 'vue';
 import { Forecast } from './models';
 import { useI18n } from 'vue-i18n';
 
+const weather_icon = {
+  sun: 'clear_day',
+  moon: 'clear_night',
+  cloudy: 'filter_drama',
+  partly_cloudy_day: 'partly_cloudy_day',
+  partly_cloudy_night: 'partly_cloudy_night',
+  snow: 'weather_snowy',
+  rain: 'rainy',
+  showers: 'thunderstorm',
+};
+
 export default defineComponent({
   name: 'WeatherView',
   props: {
@@ -149,13 +165,14 @@ export default defineComponent({
     const weather = computed(() => {
       const { snowfall, precipitation, rain, showers, cloud_cover, is_day } =
         props.forecast.current;
-      if (snowfall) return t('snow');
-      if (showers) return t('showers');
-      if (rain || precipitation) return t('rain');
-      if (cloud_cover > 10) return t('partially_cloudy');
-      if (cloud_cover > 80) return t('cloudy');
+      if (snowfall) return 'snow';
+      if (showers) return 'showers';
+      if (rain || precipitation) return 'rain';
+      if (cloud_cover > 10)
+        return is_day ? 'partly_cloudy_day' : 'partly_cloudy_night';
+      if (cloud_cover > 80) return 'cloudy';
 
-      return is_day ? 'Sun' : 'Moon';
+      return is_day ? 'sun' : 'moon';
     });
     const temp = computed(() => {
       const { daily, daily_units } = props.forecast;
@@ -165,7 +182,7 @@ export default defineComponent({
       const max = `${sign_max}${daily.temperature_2m_max[0]}${daily_units.temperature_2m_max[0]}`;
       return `${min}${max}`;
     });
-    return { weather, temp };
+    return { weather, temp, weather_icon };
   },
 });
 </script>

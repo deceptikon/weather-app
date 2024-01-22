@@ -18,6 +18,9 @@ export default {
   snow: 'Snow',
   showers: 'Showers',
   rain: 'Rain',
-  partially_cloudy: 'Partially cloudy',
+  partly_cloudy_day: 'Partly cloudy',
+  partly_cloudy_night: 'Partly cloudy',
   cloudy: 'Cloudy',
+  sun: 'Clear',
+  moon: 'Clear',
 };

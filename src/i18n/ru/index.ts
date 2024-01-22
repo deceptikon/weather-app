@@ -18,6 +18,9 @@ export default {
   snow: 'Снег',
   showers: 'Ливень',
   rain: 'Дождь',
-  partially_cloudy: 'Местами облачно',
+  partly_cloudy_day: 'Местами облачно',
+  partly_cloudy_night: 'Местами облачно',
   cloudy: 'Тучи',
+  sun: 'Ясно',
+  moon: 'Ясно',
 };
