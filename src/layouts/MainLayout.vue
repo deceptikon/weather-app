@@ -10,8 +10,10 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         /> -->
-
-        <q-toolbar-title> {{ $t('appTitle') }} </q-toolbar-title>
+        <q-toolbar-title class="text-h6 text-weight-medium">
+          <span class="material-symbols-outlined text-h5"> thermostat </span>
+          {{ $t('appTitle') }}
+        </q-toolbar-title>
         <div>
           <q-btn
             round

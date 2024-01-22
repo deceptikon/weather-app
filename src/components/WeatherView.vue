@@ -26,10 +26,6 @@
             {{ forecast.current.apparent_temperature
             }}{{ forecast.current_units.apparent_temperature }}
           </div>
-          <!-- <div class="col no-wrap items-center">
-            <span class="text-caption text-grey q-ml-sm">4.2 (551)</span>
-          </div> -->
-          <!-- <q-img src="https://cdn.quasar.dev/img/mountains.jpg" /> -->
         </div>
         <q-list class="col-auto" dense>
           <q-item>
@@ -85,7 +81,10 @@
 
             <q-item-section>
               <q-item-label>{{ $t('wind_dir') }}</q-item-label>
-              <q-item-label caption>55km/h</q-item-label>
+              <q-item-label caption>
+                {{ forecast.current.wind_direction_10m }}
+                {{ forecast.current_units.wind_direction_10m }}
+              </q-item-label>
             </q-item-section>
           </q-item>
 
@@ -124,18 +123,13 @@
         </q-card-actions> -->
       </q-card-section>
     </q-card>
-    <div>
-      <!-- <h2>City:</h2> -->
-      <!-- {{ city }} -->
-      <!-- {{ forecast }} -->
-    </div>
+    <div></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from 'vue';
 import { Forecast } from './models';
-import { useI18n } from 'vue-i18n';
 
 const weather_icon = {
   sun: 'clear_day',
@@ -161,16 +155,15 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { t } = useI18n();
     const weather = computed(() => {
       const { snowfall, precipitation, rain, showers, cloud_cover, is_day } =
         props.forecast.current;
       if (snowfall) return 'snow';
       if (showers) return 'showers';
       if (rain || precipitation) return 'rain';
-      if (cloud_cover > 10)
+      if (cloud_cover > 10 && cloud_cover < 75)
         return is_day ? 'partly_cloudy_day' : 'partly_cloudy_night';
-      if (cloud_cover > 80) return 'cloudy';
+      if (cloud_cover >= 75) return 'cloudy';
 
       return is_day ? 'sun' : 'moon';
     });
